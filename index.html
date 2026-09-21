@@ -56,11 +56,11 @@
     <select id="emp" style="margin-top:1rem;">
       <option value="">Select employee</option>
       <option>Cinthia</option>
-      <option>Bryan</option>
+      <option>Brian</option>
       <option>Romero</option>
       <option>Maria</option>
+      <option>Juan</option>
       <option>Manager</option>
-     <option>New Hire</option>
     </select>
   </div>
   <div class="section"><div class="section-label">Bills</div><div id="bills"></div></div>
@@ -88,7 +88,7 @@
     'd_Quarters':{min:20,label:'Quarters (less than $5)'},
     'd_Dimes':{min:20,label:'Dimes (less than $2)'},
     'd_Nickels':{min:40,label:'Nickels (less than $2)'},
-    'd_Pennies':{min:100,label:'Pennies (less than $1)'}
+    'd_Pennies':{min:50,label:'Pennies (less than $0.50)'}
   };
   emailjs.init(EMAILJS_PUBLIC_KEY);
   var currentShift='Morning';
@@ -99,10 +99,83 @@
   function setShift(btn,name){var b=document.querySelectorAll('.shift-bar button');for(var i=0;i<b.length;i++)b[i].classList.remove('active');btn.classList.add('active');currentShift=name;}
   function adj(id,d){var el=document.getElementById(id);el.value=Math.max(0,(parseInt(el.value)||0)+d);calc();}
   function checkLowDenoms(){var warnings=[];var keys=Object.keys(LOW_THRESHOLDS);for(var i=0;i<keys.length;i++){var k=keys[i];var el=document.getElementById(k);if(!el)continue;var qty=parseInt(el.value)||0;if(qty<LOW_THRESHOLDS[k].min){warnings.push(LOW_THRESHOLDS[k].label+': '+qty+' (need '+LOW_THRESHOLDS[k].min+')');}}var alertEl=document.getElementById('lowAlert');if(warnings.length>0){alertEl.innerHTML='Low denomination alert:<br>'+warnings.join('<br>');alertEl.style.display='block';}else{alertEl.style.display='none';}return warnings;}
-  function calc(){var total=0;var els=document.querySelectorAll('[data-val]');for(var i=0;i<els.length;i++){var el=els[i];var qty=parseInt(el.value)||0;var val=parseFloat(el.dataset.val);var sub=qty*val;total+=sub;document.getElementById('sub_'+el.id).textContent='$'+sub.toFixed(2);}var rounded=Math.round(total*100)/100;document.getElementById('total').textContent='$'+rounded.toFixed(2);var diff=Math.round((rounded-APPROVED_BANK)*100)/100;var s=document.getElementById('status');if(rounded<APPROVED_BANK){s.textContent='$'+Math.abs(diff).toFixed(2)+' short';s.className='status low';}else if(diff>=ALERT_OVER){s.textContent='+$'+diff.toFixed(2)+' over — pull cash';s.className='status high';}else{s.textContent='Balanced (approved $'+APPROVED_BANK.toFixed(2)+')';s.className='status ok';}checkLowDenoms();return{total:rounded,diff:diff};}
-  function submitCount(){var emp=document.getElementById('emp').value;if(!emp){showToast('Please select an employee.','error');return;}var result=calc();var total=result.total;var diff=result.diff;var lowWarnings=checkLowDenoms();var needsAlert=total<APPROVED_BANK||diff>=ALERT_OVER||lowWarnings.length>0;var now=new Date();var dateStr=now.toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'numeric'});var timeStr=now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});var datetime=dateStr+' '+timeStr;var statusText='';if(total<APPROVED_BANK){statusText='SHORT — $'+Math.abs(diff).toFixed(2)+' under';}else if(diff>=ALERT_OVER){statusText='OVER — +$'+diff.toFixed(2)+' above — pull cash';}else{statusText='BALANCED';}var denomData={};var lines=[];var allItems=bills.concat(coins);for(var i=0;i<allItems.length;i++){var item=allItems[i];var id='d_'+item.label.replace(/\W/g,'');var qty=parseInt(document.getElementById(id).value)||0;denomData[item.label]=qty;if(qty>0)lines.push(item.label+' x '+qty+' = $'+(qty*item.val).toFixed(2));}var btn=document.querySelector('.submit-btn');btn.disabled=true;btn.textContent='Submitting…';var sheetData={date:dateStr,time:timeStr,employee:emp,shift:currentShift,total:total.toFixed(2),status:statusText,hundreds:denomData['$100 bills']||0,fifties:denomData['$50 bills']||0,twenties:denomData['$20 bills']||0,tens:denomData['$10 bills']||0,fives:denomData['$5 bills']||0,ones:denomData['$1 bills']||0,quarters:denomData['Quarters']||0,dimes:denomData['Dimes']||0,nickels:denomData['Nickels']||0,pennies:denomData['Pennies']||0};var sheetPromise=fetch(GOOGLE_SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(sheetData)});var emailBody=lines.join('\n')+'\n\nTotal: $'+total.toFixed(2)+'\nStatus: '+statusText;if(lowWarnings.length>0){emailBody+='\n\nLOW DENOMINATION ALERT:\n'+lowWarnings.join('\n');}var emailSubject=(lowWarnings.length>0?'Low Change Alert':'Drawer Alert')+' — '+currentShift+' — '+emp+' — '+datetime;var emailPromise=needsAlert?emailjs.send(EMAILJS_SERVICE_ID,EMAILJS_TEMPLATE_ID,{to_email:OWNER_EMAIL,subject:emailSubject,employee:emp,shift:currentShift,timestamp:datetime,total:'$'+total.toFixed(2),approved:'$'+APPROVED_BANK.toFixed(2),difference:statusText,breakdown:emailBody}):Promise.resolve();Promise.all([sheetPromise,emailPromise]).then(function(){showToast(needsAlert?'Count submitted — owner alerted.':'Count submitted','success');btn.textContent='Submitted';}).catch(function(err){console.error(err);showToast('Submission error.','error');btn.disabled=false;btn.textContent='Submit count';});}
+  var OVERNIGHT_TOLERANCE=1.00;   // alert if the morning count differs from last night's close by more than this
+  var OWNER_PULL_LEVEL=100;       // a drop from a drawer this far over the bank is treated as the owner pulling cash
+
+  function calc(){
+    var total=0;var els=document.querySelectorAll('[data-val]');
+    for(var i=0;i<els.length;i++){var el=els[i];var qty=parseInt(el.value)||0;var val=parseFloat(el.dataset.val);var sub=qty*val;total+=sub;document.getElementById('sub_'+el.id).textContent='$'+sub.toFixed(2);}
+    var rounded=Math.round(total*100)/100;
+    document.getElementById('total').textContent='$'+rounded.toFixed(2);
+    var diff=Math.round((rounded-APPROVED_BANK)*100)/100;
+    var s=document.getElementById('status');
+    if(rounded<APPROVED_BANK){s.textContent='$'+Math.abs(diff).toFixed(2)+' short';s.className='status low';}
+    else if(diff>0){s.textContent='+$'+diff.toFixed(2)+' above bank';s.className='status ok';}
+    else{s.textContent='Balanced (approved $'+APPROVED_BANK.toFixed(2)+')';s.className='status ok';}
+    checkLowDenoms();
+    return{total:rounded,diff:diff};
+  }
+
+  function getLastCount(){
+    var timeout=new Promise(function(res){setTimeout(function(){res(null);},6000);});
+    var req=fetch(GOOGLE_SHEET_URL).then(function(r){return r.json();}).catch(function(){return null;});
+    return Promise.race([req,timeout]);
+  }
+
+  function submitCount(){
+    var emp=document.getElementById('emp').value;
+    if(!emp){showToast('Please select an employee.','error');return;}
+    var result=calc();var total=result.total;var diff=result.diff;
+    var lowWarnings=checkLowDenoms();
+    var now=new Date();
+    var dateStr=now.toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'numeric'});
+    var timeStr=now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+    var datetime=dateStr+' '+timeStr;
+    var btn=document.querySelector('.submit-btn');btn.disabled=true;btn.textContent='Submitting…';
+
+    getLastCount().then(function(prev){
+      // overnight check: previous count was on an earlier date
+      var overnightMsg='';var ownerPull=false;
+      if(prev&&prev.total!==undefined&&!isNaN(prev.total)&&prev.date&&prev.date!==dateStr){
+        var gap=Math.round((total-prev.total)*100)/100;
+        if(gap<0&&(prev.total-APPROVED_BANK)>=OWNER_PULL_LEVEL){
+          ownerPull=true;
+        }else if(Math.abs(gap)>OVERNIGHT_TOLERANCE){
+          overnightMsg='Overnight change '+(gap>0?'+':'-')+'$'+Math.abs(gap).toFixed(2)+
+            ' (closed at $'+Number(prev.total).toFixed(2)+' by '+prev.employee+' on '+prev.date+', opened at $'+total.toFixed(2)+')';
+        }
+      }
+
+      var statusText;
+      if(total<APPROVED_BANK){statusText='SHORT — $'+Math.abs(diff).toFixed(2)+' under';}
+      else if(diff>0){statusText='ABOVE BANK +$'+diff.toFixed(2);}
+      else{statusText='BALANCED';}
+      if(overnightMsg){statusText+=' | OVERNIGHT GAP '+overnightMsg.split(' (')[0].replace('Overnight change ','');}
+      if(ownerPull){statusText+=' | owner pull';}
+
+      var needsAlert=total<APPROVED_BANK||lowWarnings.length>0||overnightMsg!=='';
+
+      var denomData={};var lines=[];var allItems=bills.concat(coins);
+      for(var i=0;i<allItems.length;i++){var item=allItems[i];var id='d_'+item.label.replace(/\W/g,'');var qty=parseInt(document.getElementById(id).value)||0;denomData[item.label]=qty;if(qty>0)lines.push(item.label+' x '+qty+' = $'+(qty*item.val).toFixed(2));}
+
+      var sheetData={date:dateStr,time:timeStr,employee:emp,shift:currentShift,total:total.toFixed(2),status:statusText,hundreds:denomData['$100 bills']||0,fifties:denomData['$50 bills']||0,twenties:denomData['$20 bills']||0,tens:denomData['$10 bills']||0,fives:denomData['$5 bills']||0,ones:denomData['$1 bills']||0,quarters:denomData['Quarters']||0,dimes:denomData['Dimes']||0,nickels:denomData['Nickels']||0,pennies:denomData['Pennies']||0};
+      var sheetPromise=fetch(GOOGLE_SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(sheetData)});
+
+      var emailBody=lines.join('\n')+'\n\nTotal: $'+total.toFixed(2)+'\nStatus: '+statusText;
+      if(overnightMsg){emailBody='OVERNIGHT DISCREPANCY:\n'+overnightMsg+'\n\n'+emailBody;}
+      if(lowWarnings.length>0){emailBody+='\n\nLOW DENOMINATION ALERT:\n'+lowWarnings.join('\n');}
+      var tag=overnightMsg?'Overnight Discrepancy':(total<APPROVED_BANK?'Drawer Short':'Low Change Alert');
+      var emailSubject=tag+' — '+currentShift+' — '+emp+' — '+datetime;
+      var emailPromise=needsAlert?emailjs.send(EMAILJS_SERVICE_ID,EMAILJS_TEMPLATE_ID,{to_email:OWNER_EMAIL,subject:emailSubject,employee:emp,shift:currentShift,timestamp:datetime,total:'$'+total.toFixed(2),approved:'$'+APPROVED_BANK.toFixed(2),difference:statusText,breakdown:emailBody}):Promise.resolve();
+
+      return Promise.all([sheetPromise,emailPromise]).then(function(){
+        showToast('Count submitted','success');btn.textContent='Submitted';
+      });
+    }).catch(function(err){
+      console.error(err);showToast('Submission error.','error');btn.disabled=false;btn.textContent='Submit count';
+    });
+  }
   function showToast(msg,type){var t=document.getElementById('toast');t.textContent=msg;t.className='toast '+type;}
 </script>
 </body>
 </html>
-
