@@ -9,33 +9,45 @@
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f2f2f0; min-height: 100vh; padding: 1.5rem 1rem 3rem; }
   .card { background: #fff; border-radius: 14px; max-width: 480px; margin: 0 auto; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
   .card-header { background: #1a1a2e; padding: 1.25rem 1.5rem; }
-  .card-header h1 { color: #fff; font-size: 20px; font-weight: 600; letter-spacing: -0.3px; }
+  .card-header h1 { color: #fff; font-size: 20px; font-weight: 600; }
   .card-header p { color: #8888aa; font-size: 13px; margin-top: 3px; }
   .shift-bar { display: flex; border-bottom: 1px solid #ebebeb; }
-  .shift-bar button { flex: 1; padding: 12px 8px; border: none; background: #fff; font-size: 13px; font-weight: 500; color: #888; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; }
+  .shift-bar button { flex: 1; padding: 12px 8px; border: none; background: #fff; font-size: 13px; font-weight: 500; color: #888; cursor: pointer; border-bottom: 2px solid transparent; }
   .shift-bar button.active { color: #1a1a2e; border-bottom-color: #1a1a2e; }
-  .emp-row { padding: 1rem 1.5rem 0; }
-  .emp-row select { width: 100%; height: 42px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; padding: 0 12px; color: #1a1a2e; background: #fff; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
   .section { padding: 1rem 1.5rem 0; }
   .section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #aaa; margin-bottom: 8px; }
+  .field { margin-bottom: 10px; }
+  .field label { display: block; font-size: 13px; color: #555; margin-bottom: 4px; font-weight: 500; }
+  .field .hint { font-size: 11px; color: #999; margin-top: 3px; }
+  select, .money, textarea, .num { width: 100%; height: 42px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; padding: 0 12px; color: #1a1a2e; background: #fff; }
+  textarea { height: 70px; padding: 10px 12px; font-family: inherit; resize: vertical; }
+  .row2 { display: flex; gap: 10px; }
+  .row2 .field { flex: 1; }
+  .check { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #1a1a2e; padding: 6px 0; }
+  .check input { width: 20px; height: 20px; }
+  .prev-box { background: #f4f6fb; border-radius: 8px; padding: 10px 14px; margin: 1rem 1.5rem 0; font-size: 13px; color: #445; line-height: 1.45; }
   .denom-row { display: flex; align-items: center; padding: 9px 0; border-bottom: 1px solid #f0f0f0; gap: 10px; }
   .denom-row:last-child { border-bottom: none; }
   .denom-name { flex: 1; font-size: 15px; color: #1a1a2e; font-weight: 500; }
   .qty-controls { display: flex; align-items: center; gap: 6px; }
-  .qty-controls button { width: 30px; height: 30px; border-radius: 8px; border: 1px solid #ddd; background: #f7f7f7; font-size: 18px; color: #333; cursor: pointer; display: flex; align-items: center; justify-content: center; line-height: 1; }
-  .qty-controls input { width: 52px; height: 30px; border: 1px solid #ddd; border-radius: 8px; text-align: center; font-size: 14px; color: #1a1a2e; }
+  .qty-controls button { width: 30px; height: 30px; border-radius: 8px; border: 1px solid #ddd; background: #f7f7f7; font-size: 18px; cursor: pointer; }
+  .qty-controls input { width: 52px; height: 30px; border: 1px solid #ddd; border-radius: 8px; text-align: center; font-size: 14px; }
   .denom-sub { min-width: 60px; text-align: right; font-size: 13px; color: #888; }
-  .total-card { background: #f7f7f5; border-radius: 10px; padding: 1rem 1.25rem; margin: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; }
-  .total-card .lbl { font-size: 12px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; }
-  .total-card .status { font-size: 13px; margin-top: 4px; font-weight: 500; }
-  .status.ok { color: #2d8a4e; }
-  .status.low { color: #c0392b; }
-  .status.high { color: #e07b00; }
-  .total-amt { font-size: 30px; font-weight: 700; color: #1a1a2e; letter-spacing: -1px; }
-  .low-alert { background: #fdf0f0; border-radius: 8px; padding: 10px 14px; margin: 0 1.5rem 1rem; font-size: 13px; color: #c0392b; font-weight: 500; display: none; }
-  .submit-wrap { padding: 0 1.5rem 1.5rem; }
+  .total-card { background: #f7f7f5; border-radius: 10px; padding: 1rem 1.25rem; margin: 1.25rem 1.5rem 0.5rem; }
+  .total-top { display: flex; justify-content: space-between; align-items: center; }
+  .total-lbl { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500; }
+  .total-amt { font-size: 30px; font-weight: 700; color: #1a1a2e; }
+  .status { font-size: 13px; margin-top: 4px; font-weight: 500; }
+  .status.ok, .expected.ok { color: #2d8a4e; }
+  .status.low, .expected.low { color: #c0392b; }
+  .expected { font-size: 13px; margin-top: 8px; padding-top: 8px; border-top: 1px solid #e6e6e2; color: #555; }
+  .owner-alert { background: #fff7e6; color: #9a5b00; border-radius: 8px; padding: 12px 14px; margin: 0.5rem 1.5rem; font-size: 13px; font-weight: 600; display: none; }
+  .low-alert, .issue-alert { background: #fdf0f0; border-radius: 8px; padding: 10px 14px; margin: 0.5rem 1.5rem; font-size: 13px; color: #c0392b; font-weight: 500; display: none; }
+  .withdraw-box { border-top: 1px solid #ebebeb; margin-top: 1rem; padding-bottom: 1rem; }
+  .submit-wrap { padding: 0.75rem 1.5rem 1.5rem; }
   .submit-btn { width: 100%; padding: 13px; border: none; border-radius: 10px; background: #1a1a2e; color: #fff; font-size: 15px; font-weight: 600; cursor: pointer; }
-  .submit-btn:disabled { background: #aaa; cursor: not-allowed; }
+  .submit-btn.secondary { background: #fff; color: #1a1a2e; border: 1.5px solid #1a1a2e; }
+  .submit-btn:disabled { background: #aaa; color: #fff; border-color: #aaa; cursor: not-allowed; }
   .toast { display: none; margin: 0 1.5rem 1.5rem; padding: 12px 14px; border-radius: 8px; font-size: 14px; font-weight: 500; }
   .toast.success { background: #eafaf1; color: #1e7e45; display: block; }
   .toast.error { background: #fdf0f0; color: #c0392b; display: block; }
@@ -45,34 +57,89 @@
 <div class="card">
   <div class="card-header">
     <h1>Cash drawer count</h1>
-    <p>The Oaks Laundry — opening shift count</p>
+    <p>The Oaks Laundry</p>
   </div>
+
   <div class="shift-bar">
     <button class="active" onclick="setShift(this,'Morning')">Morning</button>
     <button onclick="setShift(this,'Afternoon')">Afternoon</button>
     <button onclick="setShift(this,'Evening')">Evening</button>
   </div>
-  <div class="emp-row">
-    <select id="emp" style="margin-top:1rem;">
-      <option value="">Select employee</option>
-      <option>Cinthia</option>
-      <option>Bryan</option>
-      <option>Romero</option>
-      <option>Maria</option>
-      <option>Manager</option>
-     <option>New Hire</option>
-    </select>
+
+  <div class="prev-box" id="prevBox">Loading last count…</div>
+
+  <div class="section">
+    <div class="section-label">Who</div>
+    <div class="field">
+      <label for="emp">Counting employee</label>
+      <select id="emp"></select>
+    </div>
+    <div class="field">
+      <label for="takingOver">Taking over the drawer</label>
+      <select id="takingOver" onchange="calc()"></select>
+    </div>
+    <label class="check" id="agreeWrap"><input type="checkbox" id="agreed" onchange="calc()"> Next person watched this count and agrees</label>
   </div>
+
+  <div class="section">
+    <div class="section-label">This shift</div>
+    <div class="row2">
+      <div class="field" id="salesField">
+        <label for="sales">Cleantie cash sales</label>
+        <input class="money" id="sales" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00" oninput="calc()">
+        <div class="hint">Cash sales since the previous drawer count</div>
+      </div>
+      <div class="field">
+        <label for="carts">Cart count</label>
+        <input class="num" id="carts" type="number" inputmode="numeric" min="0" placeholder="Required">
+      </div>
+    </div>
+  </div>
+
   <div class="section"><div class="section-label">Bills</div><div id="bills"></div></div>
   <div class="section"><div class="section-label">Coins</div><div id="coins"></div></div>
-  <div class="low-alert" id="lowAlert"></div>
+
   <div class="total-card">
-    <div><div class="lbl">Total</div><div class="status" id="status">—</div></div>
-    <div class="total-amt" id="total">$0.00</div>
+    <div class="total-top">
+      <div><div class="total-lbl">Total</div><div class="status" id="status">—</div></div>
+      <div class="total-amt" id="total">$0.00</div>
+    </div>
+    <div class="expected" id="expected"></div>
   </div>
-  <div class="submit-wrap"><button class="submit-btn" onclick="submitCount()">Submit count</button></div>
+
+  <div class="owner-alert" id="ownerAlert"></div>
+  <div class="low-alert" id="lowAlert"></div>
+  <div class="issue-alert" id="issueAlert"></div>
+
+  <div class="section">
+    <div class="field">
+      <label for="note">Note on any difference</label>
+      <textarea id="note" placeholder="Required if the drawer doesn't match. Cash refund? Write 'Refund $___' here and fill out a paper refund slip."></textarea>
+    </div>
+  </div>
+
+  <div class="submit-wrap"><button class="submit-btn" id="countBtn" onclick="submitCount()">Submit drawer count</button></div>
+
+  <!-- OWNER WITHDRAWAL — separate event, recorded at the moment cash is taken -->
+  <div class="section withdraw-box">
+    <div class="section-label">Owner withdrawal</div>
+    <div class="row2">
+      <div class="field">
+        <label for="withdrawOwner">Owner</label>
+        <select id="withdrawOwner"></select>
+      </div>
+      <div class="field">
+        <label for="withdrawAmount">Amount removed</label>
+        <input class="money" id="withdrawAmount" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00">
+      </div>
+    </div>
+    <div class="hint" id="withdrawHint" style="font-size:11px;color:#999;margin:-4px 0 10px;">Record this only after an owner physically removes cash.</div>
+    <button type="button" class="submit-btn secondary" id="withdrawBtn" onclick="submitWithdrawal()">Record owner withdrawal</button>
+  </div>
+
   <div class="toast" id="toast"></div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
   var EMAILJS_PUBLIC_KEY='ndWWB1hJwPp1a_UvF';
@@ -80,29 +147,308 @@
   var EMAILJS_TEMPLATE_ID='template_m2zbjc3';
   var OWNER_EMAIL='oaklaundromat@gmail.com';
   var APPROVED_BANK=400;
-  var ALERT_OVER=100;
+  var OWNER_WITHDRAWAL_ALERT=100;  // on-screen notice when this far over the bank; emailed once when first crossed
+  var TOLERANCE=1.00;
   var GOOGLE_SHEET_URL='https://script.google.com/macros/s/AKfycbyiauTAC7ayYeNSAGdpIeWB7G_Uc9Z-1dC4Pw0IWxgiz-1BuDa9M7R9hOM5Q60bgvW6/exec';
+
+  var STAFF=['Cinthia','Brian','Romero','Maria','Juan','Manager'];
+  var OWNERS=['Hamid','Raihana','Mina'];
+
   var LOW_THRESHOLDS={
     'd_1bills':{min:25,label:'$1 bills'},
     'd_5bills':{min:8,label:'$5 bills'},
-    'd_Quarters':{min:20,label:'Quarters (less than $5)'},
-    'd_Dimes':{min:20,label:'Dimes (less than $2)'},
-    'd_Nickels':{min:40,label:'Nickels (less than $2)'},
-    'd_Pennies':{min:100,label:'Pennies (less than $1)'}
+    'd_Quarters':{min:20,label:'Quarters'},
+    'd_Dimes':{min:20,label:'Dimes'},
+    'd_Nickels':{min:40,label:'Nickels'},
+    'd_Pennies':{min:50,label:'Pennies'}
   };
+
   emailjs.init(EMAILJS_PUBLIC_KEY);
   var currentShift='Morning';
+  var prevCount=null;
   var bills=[{label:'$100 bills',val:100},{label:'$50 bills',val:50},{label:'$20 bills',val:20},{label:'$10 bills',val:10},{label:'$5 bills',val:5},{label:'$1 bills',val:1}];
   var coins=[{label:'Quarters',val:0.25},{label:'Dimes',val:0.10},{label:'Nickels',val:0.05},{label:'Pennies',val:0.01}];
-  function buildRows(items,cid){var c=document.getElementById(cid);for(var i=0;i<items.length;i++){var item=items[i];var id='d_'+item.label.replace(/\W/g,'');var row=document.createElement('div');row.className='denom-row';row.innerHTML='<div class="denom-name">'+item.label+'</div><div class="qty-controls"><button type="button" onclick="adj(\''+id+'\',-1)">−</button><input type="number" id="'+id+'" value="0" min="0" data-val="'+item.val+'" oninput="calc()"><button type="button" onclick="adj(\''+id+'\',1)">+</button></div><div class="denom-sub" id="sub_'+id+'">$0.00</div>';c.appendChild(row);}}
+
+  function fillSelect(id,first,items){
+    var h='<option value="">'+first+'</option>';
+    for(var i=0;i<items.length;i++){h+='<option>'+items[i]+'</option>';}
+    document.getElementById(id).innerHTML=h;
+  }
+  fillSelect('emp','Select employee',STAFF);
+  fillSelect('takingOver','End of day — nobody taking over',STAFF);
+  fillSelect('withdrawOwner','Select owner',OWNERS);
+
+  function buildRows(items,cid){
+    var c=document.getElementById(cid);
+    for(var i=0;i<items.length;i++){
+      var item=items[i];var id='d_'+item.label.replace(/\W/g,'');
+      var row=document.createElement('div');row.className='denom-row';
+      row.innerHTML='<div class="denom-name">'+item.label+'</div><div class="qty-controls">'+
+        '<button type="button" onclick="adj(\''+id+'\',-1)">−</button>'+
+        '<input type="number" inputmode="numeric" id="'+id+'" value="0" min="0" data-val="'+item.val+'" oninput="calc()">'+
+        '<button type="button" onclick="adj(\''+id+'\',1)">+</button></div>'+
+        '<div class="denom-sub" id="sub_'+id+'">$0.00</div>';
+      c.appendChild(row);
+    }
+  }
   buildRows(bills,'bills');buildRows(coins,'coins');
+
   function setShift(btn,name){var b=document.querySelectorAll('.shift-bar button');for(var i=0;i<b.length;i++)b[i].classList.remove('active');btn.classList.add('active');currentShift=name;}
   function adj(id,d){var el=document.getElementById(id);el.value=Math.max(0,(parseInt(el.value)||0)+d);calc();}
-  function checkLowDenoms(){var warnings=[];var keys=Object.keys(LOW_THRESHOLDS);for(var i=0;i<keys.length;i++){var k=keys[i];var el=document.getElementById(k);if(!el)continue;var qty=parseInt(el.value)||0;if(qty<LOW_THRESHOLDS[k].min){warnings.push(LOW_THRESHOLDS[k].label+': '+qty+' (need '+LOW_THRESHOLDS[k].min+')');}}var alertEl=document.getElementById('lowAlert');if(warnings.length>0){alertEl.innerHTML='Low denomination alert:<br>'+warnings.join('<br>');alertEl.style.display='block';}else{alertEl.style.display='none';}return warnings;}
-  function calc(){var total=0;var els=document.querySelectorAll('[data-val]');for(var i=0;i<els.length;i++){var el=els[i];var qty=parseInt(el.value)||0;var val=parseFloat(el.dataset.val);var sub=qty*val;total+=sub;document.getElementById('sub_'+el.id).textContent='$'+sub.toFixed(2);}var rounded=Math.round(total*100)/100;document.getElementById('total').textContent='$'+rounded.toFixed(2);var diff=Math.round((rounded-APPROVED_BANK)*100)/100;var s=document.getElementById('status');if(rounded<APPROVED_BANK){s.textContent='$'+Math.abs(diff).toFixed(2)+' short';s.className='status low';}else if(diff>=ALERT_OVER){s.textContent='+$'+diff.toFixed(2)+' over — pull cash';s.className='status high';}else{s.textContent='Balanced (approved $'+APPROVED_BANK.toFixed(2)+')';s.className='status ok';}checkLowDenoms();return{total:rounded,diff:diff};}
-  function submitCount(){var emp=document.getElementById('emp').value;if(!emp){showToast('Please select an employee.','error');return;}var result=calc();var total=result.total;var diff=result.diff;var lowWarnings=checkLowDenoms();var needsAlert=total<APPROVED_BANK||diff>=ALERT_OVER||lowWarnings.length>0;var now=new Date();var dateStr=now.toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'numeric'});var timeStr=now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});var datetime=dateStr+' '+timeStr;var statusText='';if(total<APPROVED_BANK){statusText='SHORT — $'+Math.abs(diff).toFixed(2)+' under';}else if(diff>=ALERT_OVER){statusText='OVER — +$'+diff.toFixed(2)+' above — pull cash';}else{statusText='BALANCED';}var denomData={};var lines=[];var allItems=bills.concat(coins);for(var i=0;i<allItems.length;i++){var item=allItems[i];var id='d_'+item.label.replace(/\W/g,'');var qty=parseInt(document.getElementById(id).value)||0;denomData[item.label]=qty;if(qty>0)lines.push(item.label+' x '+qty+' = $'+(qty*item.val).toFixed(2));}var btn=document.querySelector('.submit-btn');btn.disabled=true;btn.textContent='Submitting…';var sheetData={date:dateStr,time:timeStr,employee:emp,shift:currentShift,total:total.toFixed(2),status:statusText,hundreds:denomData['$100 bills']||0,fifties:denomData['$50 bills']||0,twenties:denomData['$20 bills']||0,tens:denomData['$10 bills']||0,fives:denomData['$5 bills']||0,ones:denomData['$1 bills']||0,quarters:denomData['Quarters']||0,dimes:denomData['Dimes']||0,nickels:denomData['Nickels']||0,pennies:denomData['Pennies']||0};var sheetPromise=fetch(GOOGLE_SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(sheetData)});var emailBody=lines.join('\n')+'\n\nTotal: $'+total.toFixed(2)+'\nStatus: '+statusText;if(lowWarnings.length>0){emailBody+='\n\nLOW DENOMINATION ALERT:\n'+lowWarnings.join('\n');}var emailSubject=(lowWarnings.length>0?'Low Change Alert':'Drawer Alert')+' — '+currentShift+' — '+emp+' — '+datetime;var emailPromise=needsAlert?emailjs.send(EMAILJS_SERVICE_ID,EMAILJS_TEMPLATE_ID,{to_email:OWNER_EMAIL,subject:emailSubject,employee:emp,shift:currentShift,timestamp:datetime,total:'$'+total.toFixed(2),approved:'$'+APPROVED_BANK.toFixed(2),difference:statusText,breakdown:emailBody}):Promise.resolve();Promise.all([sheetPromise,emailPromise]).then(function(){showToast(needsAlert?'Count submitted — owner alerted.':'Count submitted','success');btn.textContent='Submitted';}).catch(function(err){console.error(err);showToast('Submission error.','error');btn.disabled=false;btn.textContent='Submit count';});}
+  function r2(n){return Math.round(n*100)/100;}
+  function money(n){return '$'+Math.abs(n).toFixed(2);}
+  function signed(n){return (n>=0?'+':'-')+money(n);}
+  function todayStr(){return new Date().toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'numeric'});}
+  function numVal(id){var v=document.getElementById(id).value;return v===''?null:(parseFloat(v)||0);}
+  function wdSince(){return prevCount?Number(prevCount.withdrawalsSinceCount||0):0;}
+
+  function checkLowDenoms(){
+    var warnings=[];var keys=Object.keys(LOW_THRESHOLDS);
+    for(var i=0;i<keys.length;i++){
+      var k=keys[i];var el=document.getElementById(k);if(!el)continue;
+      var qty=parseInt(el.value)||0;
+      if(qty<LOW_THRESHOLDS[k].min)warnings.push(LOW_THRESHOLDS[k].label+': '+qty+' (need '+LOW_THRESHOLDS[k].min+')');
+    }
+    var a=document.getElementById('lowAlert');
+    if(warnings.length){a.innerHTML='Low change:<br>'+warnings.join('<br>');a.style.display='block';}else{a.style.display='none';}
+    return warnings;
+  }
+
+  function getLastCount(){
+    var timeout=new Promise(function(res){setTimeout(function(){res(null);},6000);});
+    var req=fetch(GOOGLE_SHEET_URL).then(function(r){return r.json();}).catch(function(){return null;});
+    return Promise.race([req,timeout]).then(function(p){
+      return (p&&p.total!==undefined&&!isNaN(p.total)&&p.date)?p:null;
+    });
+  }
+
+  function isOpening(){return !prevCount||prevCount.date!==todayStr();}
+
+  function renderPrev(){
+    document.getElementById('salesField').style.display=(prevCount&&!isOpening())?'block':'none';
+    var b=document.getElementById('prevBox');
+    if(!prevCount){b.innerHTML='No previous count found. The difference check will be skipped.';return;}
+    var w=wdSince();
+    b.innerHTML='Last count: <b>$'+Number(prevCount.total).toFixed(2)+'</b> — '+prevCount.employee+', '+prevCount.shift+', '+prevCount.date+' '+prevCount.time+
+      (w>0?'<br>Owner withdrawals since that count: <b>$'+w.toFixed(2)+'</b>':'')+
+      (isOpening()?'<br>First count of the day.':'');
+  }
+
+  // True only on the count where the drawer first goes $100+ over the bank.
+  // Withdrawals since the last count are taken off before deciding whether it was already over.
+  function firstTimeOver(total){
+    if(!prevCount)return false;
+    var nowOver=(total-APPROVED_BANK)>=OWNER_WITHDRAWAL_ALERT;
+    var wasOver=(Number(prevCount.total)-wdSince()-APPROVED_BANK)>=OWNER_WITHDRAWAL_ALERT;
+    return nowOver&&!wasOver;
+  }
+
+  function evaluate(total){
+    var sales=numVal('sales');
+    var takingOver=document.getElementById('takingOver').value;
+    var agreed=document.getElementById('agreed').checked;
+    var r={issues:[],expectedText:'',expectedClass:'',needsNote:false,alertOwner:false};
+    if(prevCount){
+      var start=Number(prevCount.total);var w=wdSince();
+      if(isOpening()){
+        var exp1=r2(start-w);var gap=r2(total-exp1);
+        if(Math.abs(gap)<=TOLERANCE){r.expectedText='Expected $'+exp1.toFixed(2)+' from last close — matches';r.expectedClass='ok';}
+        else{r.issues.push('OVERNIGHT DIFFERENCE '+signed(gap));r.needsNote=true;r.alertOwner=true;
+             r.expectedText='Expected $'+exp1.toFixed(2)+' from last close — difference '+signed(gap);r.expectedClass='low';}
+      }else if(sales!==null){
+        var exp2=r2(start+sales-w);var diff=r2(total-exp2);
+        if(Math.abs(diff)<=TOLERANCE){r.expectedText='Expected $'+exp2.toFixed(2)+' — matches';r.expectedClass='ok';}
+        else{r.issues.push('HANDOFF DIFFERENCE '+signed(diff));r.needsNote=true;r.alertOwner=true;
+             r.expectedText='Expected $'+exp2.toFixed(2)+' — difference '+signed(diff);r.expectedClass='low';}
+      }
+    }
+    if(takingOver&&!agreed){r.issues.push('NEXT PERSON DID NOT CONFIRM');r.needsNote=true;r.alertOwner=true;}
+    return r;
+  }
+
+  function calc(){
+    var total=0;var els=document.querySelectorAll('[data-val]');
+    for(var i=0;i<els.length;i++){
+      var el=els[i];var sub=(parseInt(el.value)||0)*parseFloat(el.dataset.val);total+=sub;
+      document.getElementById('sub_'+el.id).textContent='$'+sub.toFixed(2);
+    }
+    total=r2(total);
+    document.getElementById('total').textContent='$'+total.toFixed(2);
+    var bankDiff=r2(total-APPROVED_BANK);
+    var s=document.getElementById('status');
+    if(total<APPROVED_BANK){s.textContent=money(bankDiff)+' under the $'+APPROVED_BANK+' bank';s.className='status low';}
+    else if(bankDiff>0){s.textContent='+'+money(bankDiff)+' above bank';s.className='status ok';}
+    else{s.textContent='Balanced — $'+APPROVED_BANK.toFixed(2);s.className='status ok';}
+
+    // On-screen only. The amount box is never filled in automatically.
+    var oa=document.getElementById('ownerAlert');var hint=document.getElementById('withdrawHint');
+    if(bankDiff>=OWNER_WITHDRAWAL_ALERT){
+      oa.innerHTML='Drawer is <b>$'+bankDiff.toFixed(2)+'</b> above the $'+APPROVED_BANK.toFixed(2)+' bank — ready for an owner withdrawal.';
+      oa.style.display='block';
+      hint.textContent='Suggested: $'+bankDiff.toFixed(2)+' returns the drawer to $'+APPROVED_BANK.toFixed(2)+'. Record only after an owner physically removes cash.';
+    }else{
+      oa.style.display='none';
+      hint.textContent='Record this only after an owner physically removes cash.';
+    }
+
+    document.getElementById('agreeWrap').style.display=document.getElementById('takingOver').value?'flex':'none';
+    var ev=evaluate(total);
+    var ex=document.getElementById('expected');
+    ex.textContent=ev.expectedText;ex.className='expected '+ev.expectedClass;ex.style.display=ev.expectedText?'block':'none';
+    var ia=document.getElementById('issueAlert');
+    if(ev.needsNote){ia.innerHTML='Needs a note before submitting:<br>'+ev.issues.join('<br>');ia.style.display='block';}else{ia.style.display='none';}
+    checkLowDenoms();
+    return{total:total,diff:bankDiff};
+  }
+
+  function makeId(prefix){
+    var d=new Date();function pad(n){return String(n).padStart(2,'0');}
+    return prefix+'-'+d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'-'+pad(d.getHours())+pad(d.getMinutes())+pad(d.getSeconds())+'-'+Math.random().toString(36).slice(2,6).toUpperCase();
+  }
+
+  function post(data){
+    return fetch(GOOGLE_SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+  }
+
+  function stopSubmit(btn,msg,focusId){
+    showToast(msg,'error');btn.disabled=false;btn.textContent='Submit drawer count';
+    if(focusId)document.getElementById(focusId).focus();
+  }
+
+  function submitCount(){
+    var employee=document.getElementById('emp').value;
+    if(!employee){showToast('Please select who is counting.','error');return;}
+    var btn=document.getElementById('countBtn');btn.disabled=true;btn.textContent='Checking…';
+
+    getLastCount().then(function(last){
+      prevCount=last;renderPrev();
+      var total=calc().total;
+      var ev=evaluate(total);
+      var sales=numVal('sales');
+      var note=document.getElementById('note').value.trim();
+
+      if(prevCount&&!isOpening()&&sales===null)return stopSubmit(btn,'Enter Cleantie cash sales since the previous drawer count.','sales');
+      if(document.getElementById('carts').value==='')return stopSubmit(btn,'Enter the cart count.','carts');
+      if(ev.needsNote&&!note)return stopSubmit(btn,'Add a note explaining the difference.','note');
+
+      btn.textContent='Submitting…';
+      var lowWarnings=checkLowDenoms();
+      var date=todayStr();
+      var time=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+      var id=makeId('CD');
+      var takingOver=document.getElementById('takingOver').value;
+      var agreed=document.getElementById('agreed').checked;
+      var w=wdSince();
+      var crossedOver=firstTimeOver(total);
+
+      var expectedValue='',differenceValue='';
+      if(prevCount&&sales!==null&&prevCount.date===date){
+        expectedValue=r2(Number(prevCount.total)+sales-w);differenceValue=r2(total-expectedValue);
+      }
+
+      var denomData={};var lines=[];var allItems=bills.concat(coins);
+      for(var i=0;i<allItems.length;i++){
+        var item=allItems[i];var qty=parseInt(document.getElementById('d_'+item.label.replace(/\W/g,'')).value)||0;
+        denomData[item.label]=qty;
+        if(qty>0)lines.push(item.label+' x '+qty+' = $'+(qty*item.val).toFixed(2));
+      }
+
+      var bankDiff=r2(total-APPROVED_BANK);
+      var statusText=total<APPROVED_BANK?'SHORT — '+money(bankDiff):(bankDiff>0?'ABOVE BANK +'+money(bankDiff):'BALANCED');
+      if(ev.issues.length)statusText+=' | '+ev.issues.join(' | ');
+
+      var sheetPromise=post({
+        action:'count',submissionId:id,date:date,time:time,employee:employee,shift:currentShift,total:total.toFixed(2),status:statusText,
+        hundreds:denomData['$100 bills']||0,fifties:denomData['$50 bills']||0,twenties:denomData['$20 bills']||0,tens:denomData['$10 bills']||0,fives:denomData['$5 bills']||0,ones:denomData['$1 bills']||0,
+        quarters:denomData['Quarters']||0,dimes:denomData['Dimes']||0,nickels:denomData['Nickels']||0,pennies:denomData['Pennies']||0,
+        sales:(sales===null?'':sales),expected:expectedValue,difference:differenceValue,withdrawalsSinceCount:w,
+        carts:document.getElementById('carts').value,takingOver:takingOver,agreed:(takingOver?(agreed?'Yes':'No'):''),note:note
+      });
+
+      // Emails: discrepancies, short drawer, low change, and the first time the drawer goes $100+ over.
+      var needsAlert=total<APPROVED_BANK||lowWarnings.length>0||ev.alertOwner||crossedOver;
+
+      var body='Submission ID: '+id+'\n';
+      if(ev.issues.length)body+='ISSUES:\n'+ev.issues.join('\n')+'\n';
+      if(ev.expectedText)body+=ev.expectedText+'\n';
+      if(prevCount)body+='Previous count: $'+Number(prevCount.total).toFixed(2)+' by '+prevCount.employee+' ('+prevCount.shift+', '+prevCount.date+' '+prevCount.time+')\n';
+      if(w>0)body+='Owner withdrawals since that count: $'+w.toFixed(2)+'\n';
+      if(sales!==null)body+='Cash sales: $'+Number(sales).toFixed(2)+'\n';
+      if(takingOver)body+='Taking over: '+takingOver+' — agreed: '+(agreed?'yes':'NO')+'\n';
+      if(note)body+='Note: '+note+'\n';
+      if(crossedOver)body+='\nDrawer is now $'+bankDiff.toFixed(2)+' above the $'+APPROVED_BANK.toFixed(2)+' bank — ready for a withdrawal. You won\'t be emailed about this again until it drops back under.\n';
+      body+='\n'+lines.join('\n')+'\n\nTotal: $'+total.toFixed(2)+'\nStatus: '+statusText;
+      if(lowWarnings.length)body+='\n\nLOW CHANGE:\n'+lowWarnings.join('\n');
+
+      var tag=ev.issues.length?ev.issues[0].split(' ').slice(0,2).join(' ')
+        :(total<APPROVED_BANK?'Drawer Short':(crossedOver?'Drawer $100+ Over Bank':'Low Change'));
+
+      var emailPromise=needsAlert?emailjs.send(EMAILJS_SERVICE_ID,EMAILJS_TEMPLATE_ID,{
+        to_email:OWNER_EMAIL,subject:tag+' — '+currentShift+' — '+employee+' — '+date+' '+time,employee:employee,shift:currentShift,
+        timestamp:date+' '+time,total:'$'+total.toFixed(2),approved:'$'+APPROVED_BANK.toFixed(2),difference:statusText,breakdown:body
+      }):Promise.resolve();
+
+      return Promise.all([sheetPromise,emailPromise]).then(function(){
+        showToast('Count submitted — '+id,'success');btn.textContent='Submitted';
+      });
+    }).catch(function(err){
+      console.error(err);showToast('Submission error.','error');btn.disabled=false;btn.textContent='Submit drawer count';
+    });
+  }
+
+  function submitWithdrawal(){
+    var owner=document.getElementById('withdrawOwner').value;
+    var amount=numVal('withdrawAmount');
+    var btn=document.getElementById('withdrawBtn');
+    if(!owner){showToast('Select Hamid, Raihana, or Mina.','error');return;}
+    if(amount===null||amount<=0){showToast('Enter the amount physically removed.','error');return;}
+
+    btn.disabled=true;btn.textContent='Recording…';
+    getLastCount().then(function(last){
+      if(!last){
+        showToast('Submit a drawer count before recording a withdrawal.','error');
+        btn.disabled=false;btn.textContent='Record owner withdrawal';return;
+      }
+      prevCount=last;
+      var date=todayStr();
+      var time=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+      var id=makeId('OW');
+      var priorW=Number(last.withdrawalsSinceCount||0);
+      var available=Math.max(0,r2(Number(last.total)-APPROVED_BANK-priorW));
+
+      var sheetPromise=post({
+        action:'ownerWithdrawal',submissionId:id,date:date,time:time,owner:owner,amount:amount,
+        relatedCountId:last.submissionId||'',priorCountTotal:Number(last.total),priorWithdrawals:priorW,availableAboveBank:available
+      });
+
+      // Every withdrawal is emailed, so one that wasn't you is caught within minutes
+      var emailPromise=emailjs.send(EMAILJS_SERVICE_ID,EMAILJS_TEMPLATE_ID,{
+        to_email:OWNER_EMAIL,subject:'Owner Withdrawal $'+amount.toFixed(2)+' — '+owner+' — '+date+' '+time,
+        employee:owner,shift:'Owner Withdrawal',timestamp:date+' '+time,total:'$'+amount.toFixed(2),approved:'$'+APPROVED_BANK.toFixed(2),
+        difference:'OWNER WITHDRAWAL',
+        breakdown:'OWNER WITHDRAWAL LOGGED\nOwner: '+owner+'\nAmount: $'+amount.toFixed(2)+'\nTime: '+date+' '+time+
+          '\nLast drawer count: $'+Number(last.total).toFixed(2)+' by '+last.employee+
+          (priorW>0?'\nEarlier withdrawals since that count: $'+priorW.toFixed(2):'')+
+          '\nWithdrawal ID: '+id+'\n\nIf this was not you, look into it.'
+      });
+
+      return Promise.all([sheetPromise,emailPromise]).then(function(){
+        document.getElementById('withdrawAmount').value='';
+        document.getElementById('withdrawOwner').value='';
+        showToast('Owner withdrawal recorded — '+id,'success');
+        btn.disabled=false;btn.textContent='Record owner withdrawal';
+        return getLastCount();
+      }).then(function(updated){prevCount=updated;renderPrev();calc();});
+    }).catch(function(err){
+      console.error(err);showToast('Owner withdrawal submission error.','error');
+      btn.disabled=false;btn.textContent='Record owner withdrawal';
+    });
+  }
+
   function showToast(msg,type){var t=document.getElementById('toast');t.textContent=msg;t.className='toast '+type;}
+
+  getLastCount().then(function(last){prevCount=last;renderPrev();calc();});
+  calc();
 </script>
 </body>
 </html>
-
