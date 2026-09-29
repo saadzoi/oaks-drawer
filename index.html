@@ -1,108 +1,1110 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Cash Drawer Count — The Oaks Laundry</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f2f2f0; min-height: 100vh; padding: 1.5rem 1rem 3rem; }
-  .card { background: #fff; border-radius: 14px; max-width: 480px; margin: 0 auto; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
-  .card-header { background: #1a1a2e; padding: 1.25rem 1.5rem; }
-  .card-header h1 { color: #fff; font-size: 20px; font-weight: 600; letter-spacing: -0.3px; }
-  .card-header p { color: #8888aa; font-size: 13px; margin-top: 3px; }
-  .shift-bar { display: flex; border-bottom: 1px solid #ebebeb; }
-  .shift-bar button { flex: 1; padding: 12px 8px; border: none; background: #fff; font-size: 13px; font-weight: 500; color: #888; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; }
-  .shift-bar button.active { color: #1a1a2e; border-bottom-color: #1a1a2e; }
-  .emp-row { padding: 1rem 1.5rem 0; }
-  .emp-row select { width: 100%; height: 42px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; padding: 0 12px; color: #1a1a2e; background: #fff; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
-  .section { padding: 1rem 1.5rem 0; }
-  .section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #aaa; margin-bottom: 8px; }
-  .denom-row { display: flex; align-items: center; padding: 9px 0; border-bottom: 1px solid #f0f0f0; gap: 10px; }
-  .denom-row:last-child { border-bottom: none; }
-  .denom-name { flex: 1; font-size: 15px; color: #1a1a2e; font-weight: 500; }
-  .qty-controls { display: flex; align-items: center; gap: 6px; }
-  .qty-controls button { width: 30px; height: 30px; border-radius: 8px; border: 1px solid #ddd; background: #f7f7f7; font-size: 18px; color: #333; cursor: pointer; display: flex; align-items: center; justify-content: center; line-height: 1; }
-  .qty-controls input { width: 52px; height: 30px; border: 1px solid #ddd; border-radius: 8px; text-align: center; font-size: 14px; color: #1a1a2e; }
-  .denom-sub { min-width: 60px; text-align: right; font-size: 13px; color: #888; }
-  .total-card { background: #f7f7f5; border-radius: 10px; padding: 1rem 1.25rem; margin: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; }
-  .total-card .lbl { font-size: 12px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; }
-  .total-card .status { font-size: 13px; margin-top: 4px; font-weight: 500; }
-  .status.ok { color: #2d8a4e; }
-  .status.low { color: #c0392b; }
-  .status.high { color: #e07b00; }
-  .total-amt { font-size: 30px; font-weight: 700; color: #1a1a2e; letter-spacing: -1px; }
-  .low-alert { background: #fdf0f0; border-radius: 8px; padding: 10px 14px; margin: 0 1.5rem 1rem; font-size: 13px; color: #c0392b; font-weight: 500; display: none; }
-  .submit-wrap { padding: 0 1.5rem 1.5rem; }
-  .submit-btn { width: 100%; padding: 13px; border: none; border-radius: 10px; background: #1a1a2e; color: #fff; font-size: 15px; font-weight: 600; cursor: pointer; }
-  .submit-btn:disabled { background: #aaa; cursor: not-allowed; }
-  .toast { display: none; margin: 0 1.5rem 1.5rem; padding: 12px 14px; border-radius: 8px; font-size: 14px; font-weight: 500; }
-  .toast.success { background: #eafaf1; color: #1e7e45; display: block; }
-  .toast.error { background: #fdf0f0; color: #c0392b; display: block; }
+*{box-sizing:border-box}
+body{margin:0;padding:24px 12px 48px;background:#f2f2f0;color:#1a1a2e;font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.card{max-width:480px;margin:auto;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px #0001}
+.header{background:#1a1a2e;color:white;padding:20px 24px}
+.header h1{font-size:20px;margin:0}
+.header p{color:#aac;margin:4px 0 0}
+.section{padding:16px 24px 0}
+.section-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#777;margin-bottom:10px}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:5px}
+.hint{font-size:11px;color:#666;margin-top:4px;line-height:1.35}
+select,input,textarea{font:inherit}
+select,.entry,textarea{width:100%;min-height:42px;padding:9px 11px;border:1px solid #ccc;border-radius:8px;background:white;color:#1a1a2e}
+textarea{min-height:70px;resize:vertical}
+.row2{display:flex;gap:10px}
+.row2>.field{flex:1;min-width:0}
+.check{display:flex;align-items:flex-start;gap:10px;line-height:1.35;margin:12px 0}
+.check input{width:22px;height:22px;margin:0;flex:none}
+.prev{margin:16px 24px 0;padding:12px;border-radius:8px;background:#f4f6fb;line-height:1.45}
+.denom{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid #eee}
+.denom-name{flex:1;font-weight:600}
+.controls{display:flex;align-items:center;gap:5px}
+.controls button{width:30px;height:32px;border:1px solid #ccc;border-radius:7px;background:#f7f7f7;font-size:19px}
+.controls input{width:52px;height:32px;text-align:center;border:1px solid #ccc;border-radius:7px}
+.sub{min-width:62px;text-align:right;color:#666}
+.bad{border-color:#c0392b!important;background:#fdf0f0!important}
+.summary{margin:20px 24px 8px;padding:16px;background:#f7f7f5;border-radius:10px}
+.total-row{display:flex;justify-content:space-between;align-items:center}
+.total-row strong{font-size:30px}
+.status{font-size:13px;margin-top:4px}
+.ok{color:#267747}
+.low{color:#bd332b}
+.expected{border-top:1px solid #e6e6e2;margin-top:8px;padding-top:8px;font-size:13px}
+.warn{color:#885400}
+.notice{display:none;margin:8px 24px;padding:11px 13px;border-radius:8px;line-height:1.4}
+.notice.show{display:block}
+.notice.warn{background:#fff6e5}
+.notice.error{background:#fdf0f0;color:#a52620}
+.notice.info{background:#f4f6fb;color:#445}
+.buttons{padding:12px 24px 18px}
+.button{width:100%;padding:13px;border:1px solid #1a1a2e;border-radius:9px;background:#1a1a2e;color:white;font-weight:600;font-size:15px;cursor:pointer}
+.button.secondary{background:white;color:#1a1a2e;margin-top:8px}
+.button:disabled{background:#aaa;border-color:#aaa;color:white;cursor:not-allowed}
+.withdraw{border-top:1px solid #ddd;padding-bottom:18px}
+.hidden{display:none!important}
+@media(max-width:390px){
+  .row2{display:block}
+  .section{padding-left:18px;padding-right:18px}
+  .prev,.summary,.notice{margin-left:18px;margin-right:18px}
+  .buttons{padding-left:18px;padding-right:18px}
+}
 </style>
 </head>
 <body>
-<div class="card">
-  <div class="card-header">
+<main class="card">
+  <header class="header">
     <h1>Cash drawer count</h1>
-    <p>The Oaks Laundry — opening shift count</p>
+    <p id="shiftLine">The Oaks Laundry</p>
+  </header>
+
+  <div id="prevBox" class="prev">Loading last count…</div>
+  <div id="pendingCount" class="notice warn" role="status"></div>
+
+  <section class="section">
+    <div class="section-label">Who</div>
+    <div class="field">
+      <label for="countType">Type of count</label>
+      <select id="countType">
+        <option value="">Loading count records…</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="emp" id="empLabel">Counting the drawer</label>
+      <select id="emp"></select>
+    </div>
+    <div id="outgoingField" class="field hidden">
+      <label for="outgoing">Outgoing employee handing over the drawer</label>
+      <select id="outgoing"></select>
+    </div>
+    <label id="agreeWrap" class="check hidden">
+      <input id="agreed" type="checkbox">
+      <span id="agreeText">The outgoing employee watched the incoming employee count and agrees.</span>
+    </label>
+  </section>
+
+  <section class="section">
+    <div class="section-label">This shift</div>
+    <div class="row2">
+      <div class="field">
+        <label for="sales">Cleantie cash sales today</label>
+        <input id="sales" class="entry" type="text"
+          inputmode="decimal" placeholder="0.00">
+        <p class="hint">Running cash total for the whole day. Leave blank for an opening count.</p>
+      </div>
+      <div class="field">
+        <label for="carts">Cart count</label>
+        <input id="carts" class="entry" type="text"
+          inputmode="numeric" placeholder="Required">
+        <p id="cartHint" class="hint"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-label">Bills</div>
+    <div id="bills"></div>
+  </section>
+  <section class="section">
+    <div class="section-label">Coins</div>
+    <div id="coins"></div>
+  </section>
+
+  <div class="summary">
+    <div class="total-row">
+      <div>
+        <div>Total</div>
+        <div id="status" class="status">Start counting</div>
+      </div>
+      <strong id="total">$0.00</strong>
+    </div>
+    <div id="expected" class="expected"></div>
   </div>
-  <div class="shift-bar">
-    <button class="active" onclick="setShift(this,'Morning')">Morning</button>
-    <button onclick="setShift(this,'Afternoon')">Afternoon</button>
-    <button onclick="setShift(this,'Evening')">Evening</button>
+
+  <div id="ownerAlert" class="notice warn"></div>
+  <div id="cartAlert" class="notice info"></div>
+  <div id="lowAlert" class="notice error"></div>
+  <div id="issueAlert" class="notice error"></div>
+
+  <section class="section">
+    <div class="field">
+      <label for="note">Note on any difference</label>
+      <textarea id="note"
+        placeholder="Explain a difference or cash refund. Complete the paper refund slip too."></textarea>
+    </div>
+  </section>
+
+  <div class="buttons">
+    <button id="countBtn" class="button" type="button">
+      Submit drawer count
+    </button>
+    <button id="newCountBtn" class="button secondary hidden" type="button">
+      Start another count
+    </button>
   </div>
-  <div class="emp-row">
-    <select id="emp" style="margin-top:1rem;">
-      <option value="">Select employee</option>
-      <option>Cinthia</option>
-      <option>Bryan</option>
-      <option>Romero</option>
-      <option>Maria</option>
-      <option>Manager</option>
-     <option>New Hire</option>
-    </select>
-  </div>
-  <div class="section"><div class="section-label">Bills</div><div id="bills"></div></div>
-  <div class="section"><div class="section-label">Coins</div><div id="coins"></div></div>
-  <div class="low-alert" id="lowAlert"></div>
-  <div class="total-card">
-    <div><div class="lbl">Total</div><div class="status" id="status">—</div></div>
-    <div class="total-amt" id="total">$0.00</div>
-  </div>
-  <div class="submit-wrap"><button class="submit-btn" onclick="submitCount()">Submit count</button></div>
-  <div class="toast" id="toast"></div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <section class="section withdraw">
+    <div class="section-label">Owner withdrawal</div>
+    <div class="row2">
+      <div class="field">
+        <label for="withdrawOwner">Owner</label>
+        <select id="withdrawOwner"></select>
+      </div>
+      <div class="field">
+        <label for="withdrawAmount">Amount physically removed</label>
+        <input id="withdrawAmount" class="entry" type="text"
+          inputmode="decimal" placeholder="0.00">
+      </div>
+    </div>
+    <p id="withdrawHint" class="hint">
+      Record only after the owner physically removes the cash.
+    </p>
+    <button id="withdrawBtn" class="button secondary" type="button">
+      Record owner withdrawal
+    </button>
+  </section>
+
+  <div id="toast" class="notice" role="status" aria-live="polite"></div>
+</main>
+
 <script>
-  var EMAILJS_PUBLIC_KEY='ndWWB1hJwPp1a_UvF';
-  var EMAILJS_SERVICE_ID='service_vt5n8lc';
-  var EMAILJS_TEMPLATE_ID='template_m2zbjc3';
-  var OWNER_EMAIL='oaklaundromat@gmail.com';
-  var APPROVED_BANK=400;
-  var ALERT_OVER=100;
-  var GOOGLE_SHEET_URL='https://script.google.com/macros/s/AKfycbyiauTAC7ayYeNSAGdpIeWB7G_Uc9Z-1dC4Pw0IWxgiz-1BuDa9M7R9hOM5Q60bgvW6/exec';
-  var LOW_THRESHOLDS={
-    'd_1bills':{min:25,label:'$1 bills'},
-    'd_5bills':{min:8,label:'$5 bills'},
-    'd_Quarters':{min:20,label:'Quarters (less than $5)'},
-    'd_Dimes':{min:20,label:'Dimes (less than $2)'},
-    'd_Nickels':{min:40,label:'Nickels (less than $2)'},
-    'd_Pennies':{min:100,label:'Pennies (less than $1)'}
+"use strict";
+
+const GOOGLE_SHEET_URL='https://script.google.com/macros/s/AKfycbyiauTAC7ayYeNSAGdpIeWB7G_Uc9Z-1dC4Pw0IWxgiz-1BuDa9M7R9hOM5Q60bgvW6/exec';
+
+const APPROVED_BANK=400;
+const WITHDRAWAL_ALERT=150;
+const TOLERANCE=1;
+const TZ='America/Los_Angeles';
+
+const STAFF=[
+  'Cinthia','Brian','Ramiro','Maria','Juan','New Hire','Manager'
+];
+const OWNERS=['Hamid','Raihana','Mina'];
+
+const BILLS=[
+  ['$100 bills',100,'hundreds'],
+  ['$50 bills',50,'fifties'],
+  ['$20 bills',20,'twenties'],
+  ['$10 bills',10,'tens'],
+  ['$5 bills',5,'fives'],
+  ['$1 bills',1,'ones']
+];
+const COINS=[
+  ['Quarters',.25,'quarters'],
+  ['Dimes',.10,'dimes'],
+  ['Nickels',.05,'nickels'],
+  ['Pennies',.01,'pennies']
+];
+const DENOMS=BILLS.concat(COINS);
+const LOW=[
+  ['ones',25,'$1 bills'],
+  ['fives',8,'$5 bills'],
+  ['quarters',20,'Quarters'],
+  ['dimes',20,'Dimes'],
+  ['nickels',40,'Nickels'],
+  ['pennies',50,'Pennies']
+];
+
+const COUNT_KEY='oaksDrawerPendingCountV2';
+const WITHDRAW_KEY='oaksDrawerPendingWithdrawalV2';
+
+let book=null;
+let connStatus='loading';
+let ledgerError='';
+let pendingCount=null;
+let pendingWithdrawal=null;
+
+const $=id=>document.getElementById(id);
+
+function fillSelect(id,first,items){
+  const s=$(id);
+  s.replaceChildren(new Option(first,''));
+  items.forEach(x=>s.add(new Option(x,x)));
+}
+fillSelect('emp','Select employee',STAFF);
+fillSelect('outgoing','Select outgoing employee',STAFF);
+fillSelect('withdrawOwner','Select owner',OWNERS);
+
+function buildRows(items,target){
+  items.forEach(([label,value,key])=>{
+    const row=document.createElement('div');
+    row.className='denom';
+
+    const name=document.createElement('span');
+    name.className='denom-name';
+    name.textContent=label;
+
+    const controls=document.createElement('span');
+    controls.className='controls';
+
+    const minus=document.createElement('button');
+    minus.type='button';
+    minus.textContent='−';
+    minus.setAttribute('aria-label','Remove one '+label);
+
+    const qty=document.createElement('input');
+    qty.id='d_'+key;
+    qty.type='text';
+    qty.inputMode='numeric';
+    qty.value='0';
+    qty.setAttribute('aria-label',label);
+    qty.dataset.value=value;
+
+    const plus=document.createElement('button');
+    plus.type='button';
+    plus.textContent='+';
+    plus.setAttribute('aria-label','Add one '+label);
+
+    const sub=document.createElement('span');
+    sub.className='sub';
+    sub.id='s_'+key;
+    sub.textContent='$0.00';
+
+    minus.addEventListener('click',()=>adjust(qty,-1));
+    plus.addEventListener('click',()=>adjust(qty,1));
+    qty.addEventListener('input',calc);
+
+    controls.append(minus,qty,plus);
+    row.append(name,controls,sub);
+    $(target).append(row);
+  });
+}buildRows(BILLS,'bills');
+buildRows(COINS,'coins');
+
+function whole(raw){
+  const s=String(raw??'').trim();
+  if(!/^\d+$/.test(s)) return null;
+  const n=Number(s);
+  return Number.isSafeInteger(n)?n:null;
+}
+function cents(raw){
+  const s=String(raw??'').trim();
+  if(!/^\d+(?:\.\d{1,2})?$/.test(s)) return null;
+  const n=Number(s);
+  return Number.isSafeInteger(Math.round(n*100))
+    ?Math.round(n*100):null;
+}
+function adjust(el,step){
+  const n=whole(el.value);
+  el.value=Math.max(0,(n??0)+step);
+  calc();
+}
+function usd(n){return '$'+Math.abs(n).toFixed(2)}
+function signed(n){return(n<0?'-':'+')+usd(n)}
+function round(n){return Math.round(n*100)/100}
+
+function show(id,message,type){
+  const el=$(id);
+  el.textContent=message;
+  el.className='notice show '+type;
+}
+function hide(id){
+  $(id).className='notice';
+  $(id).textContent='';
+}
+
+function laParts(){
+  const v={};
+  new Intl.DateTimeFormat('en-US',{
+    timeZone:TZ,
+    year:'numeric',
+    month:'2-digit',
+    day:'2-digit',
+    hour:'numeric',
+    hourCycle:'h23'
+  }).formatToParts(new Date()).forEach(p=>{
+    if(p.type!=='literal') v[p.type]=p.value;
+  });
+  return v;
+}
+
+function shiftNow(){
+  const h=Number(laParts().hour);
+  return h>=3&&h<12?'Morning':
+    h>=12&&h<21?'Afternoon':'Evening';
+}
+
+function businessDate(){
+  const p=laParts();
+  const d=new Date(Date.UTC(+p.year,+p.month-1,+p.day));
+  if(+p.hour<3) d.setUTCDate(d.getUTCDate()-1);
+  return String(d.getUTCMonth()+1).padStart(2,'0')+'/' +
+    String(d.getUTCDate()).padStart(2,'0')+'/' +
+    d.getUTCFullYear();
+}
+function timeNow(){
+  return new Date().toLocaleTimeString('en-US',{
+    timeZone:TZ,hour:'2-digit',minute:'2-digit'
+  });
+}
+function idFor(prefix){
+  return prefix+'-'+Date.now().toString(36).toUpperCase()+
+    '-'+Math.random().toString(36).slice(2,10).toUpperCase();
+}
+
+function loadPending(key){
+  try{
+    const raw=localStorage.getItem(key);
+    return raw?JSON.parse(raw):null;
+  }catch{return null}
+}
+function persist(key,item){
+  try{
+    localStorage.setItem(key,JSON.stringify(item));
+    return true;
+  }catch{return false}
+}
+function clearPending(key){
+  try{localStorage.removeItem(key)}catch{}
+}
+
+function normTime(s){
+  if(/^\d{1,2}:\d{2}\s?(AM|PM)$/i.test(String(s)))
+    return String(s);
+  const d=new Date(s);
+  return Number.isNaN(+d)?String(s||''):
+    d.toLocaleTimeString('en-US',{
+      timeZone:TZ,hour:'numeric',minute:'2-digit'
+    });
+}
+function shortDate(s){
+  const m=String(s||'').match(
+    /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/
+  );
+  return m
+    ?new Date(+m[3],+m[1]-1,+m[2])
+      .toLocaleDateString('en-US',{month:'short',day:'numeric'})
+    :String(s||'');
+}
+
+async function loadBook(ms=45000){
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),ms);
+  try{
+    const response=await fetch(
+      GOOGLE_SHEET_URL+'?t='+Date.now(),
+      {cache:'no-store',signal:controller.signal}
+    );
+    if(!response.ok) throw Error('HTTP '+response.status);
+
+    const data=await response.json();
+    if(!data||data.success===false||typeof data!=='object')
+      throw Error(data?.error||'Bad ledger response');
+
+    ledgerError='';
+    if(!data.last){
+      connStatus='empty';
+      book=null;
+      return null;
+    }
+
+    data.wdSinceLast=Number(
+      data.last.withdrawalsSinceCount||0
+    );
+    data.wdSinceTodayOpen=
+      data.todayOpen &&
+      data.todayOpen.submissionId===data.last.submissionId
+        ?data.wdSinceLast
+        :Number(data.wdSinceTodayOpen||0);
+
+    data.last.time=normTime(data.last.time);
+    if(data.todayOpen)
+      data.todayOpen.time=normTime(data.todayOpen.time);
+    if(data.prevClose)
+      data.prevClose.time=normTime(data.prevClose.time);
+
+    connStatus='ok';
+    book=data;
+    return data;
+  }catch(e){
+    connStatus='error';
+    book=null;
+    ledgerError=String(e?.message||e);
+    return null;
+  }finally{
+    clearTimeout(timer);
+  }
+}
+
+function isOpening(){
+  return connStatus==='empty' ||
+    (connStatus==='ok'&&!book.todayOpen);
+}
+function withdrawals(){
+  return !book?0:Number(book.wdSinceLast||0);
+}
+
+function countOptions(){
+  const s=$('countType');
+  const old=s.value;
+  s.replaceChildren();
+
+  if(connStatus==='loading'){
+    s.add(new Option('Loading count records…',''));
+  }else if(connStatus==='error'){
+    s.add(new Option('Choose count type (ledger unavailable)',''));
+    s.add(new Option('Opening — no handoff','opening'));
+    s.add(new Option(
+      'Handoff — incoming employee counts','handoff'
+    ));
+    s.add(new Option('Closing — no handoff','closing'));
+  }else if(isOpening()){
+    s.add(new Option('Opening count','opening'));
+  }else if(book.countToday>=4 || book.last?.countType==='closing'){
+    s.add(new Option('This business day is closed',''));
+  }else{
+    s.add(new Option('Choose count type',''));
+    s.add(new Option(
+      'Handoff — incoming employee counts','handoff'
+    ));
+    s.add(new Option('Closing — no handoff','closing'));
+  }
+
+  if([...s.options].some(o=>o.value===old))
+    s.value=old;
+  else if(isOpening())
+    s.value='opening';
+
+  updateType();
+  if(book?.currentHolder){
+    $('outgoing').value=book.currentHolder;
+    updateType();
+  }
+}
+
+function updateType(){
+  const type=$('countType').value;
+  const handoff=type==='handoff';
+
+  $('outgoingField').classList.toggle('hidden',!handoff);
+  $('agreeWrap').classList.toggle('hidden',!handoff);
+
+  $('empLabel').textContent=handoff
+    ?'Incoming employee counting the drawer'
+    :type==='closing'
+      ?'Closing employee counting the drawer'
+      :'Employee counting the drawer';
+
+  $('agreeText').textContent=
+    ($('outgoing').value||'The outgoing employee')+
+    ' watched this count and agrees before handing over the drawer.';
+
+  calc();
+}
+
+function renderPrev(){
+  $('shiftLine').textContent=
+    'The Oaks Laundry — '+shiftNow()+' count';
+
+  if(connStatus==='loading'){
+    $('prevBox').textContent='Loading last count…';
+    return;
+  }
+  if(connStatus==='error'){
+    $('prevBox').textContent=
+      'Could not load previous counts ('+ledgerError+'). '+
+      'Choose the count type and record this count as '+
+      'UNVERIFIED. It is saved only if the sheet confirms it.';
+    return;
+  }
+  if(connStatus==='empty'){
+    $('prevBox').textContent=
+      'No previous count on record. This opening count '+
+      'will start the log.';
+    return;
+  }
+
+  const parts=[];
+  if(book.prevClose&&isOpening()){
+    parts.push(
+      'Last night closed: '+
+      usd(Number(book.prevClose.total))+' — '+
+      book.prevClose.employee+' at '+book.prevClose.time
+    );
+  }
+  if(book.todayOpen){
+    parts.push(
+      'Opened today: '+
+      usd(Number(book.todayOpen.total))+' — '+
+      book.todayOpen.employee+' at '+book.todayOpen.time
+    );
+  }
+  parts.push(
+    'Last count: '+usd(Number(book.last.total))+
+    ' — '+book.last.employee+', '+book.last.time
+  );
+  if(withdrawals()>0){
+    parts.push(
+      'Owner withdrawals since '+
+      'last count'+
+      ': '+usd(withdrawals())
+    );
+  }
+
+  $('prevBox').replaceChildren(
+    ...parts.map(p=>{
+      const el=document.createElement('div');
+      el.textContent=p;
+      return el;
+    })
+  );}
+
+function cartBaseline(){
+  if(book?.lastCart?.count!=null &&
+     Number.isFinite(Number(book.lastCart.count)))
+    return Number(book.lastCart.count);
+  if(book?.last?.carts!=null &&
+     Number.isFinite(Number(book.last.carts)))
+    return Number(book.last.carts);
+  return null;
+}
+
+function lowWarnings(q){
+  return LOW
+    .filter(([key,min])=>q[key]<min)
+    .map(([key,min,label])=>
+      label+': '+q[key]+' (need '+min+')'
+    );
+}
+
+function expectedFor(total){
+  const type=$('countType').value;
+  const sales=cents($('sales').value);
+  const r={
+    value:null,diff:null,text:'',kind:'',causes:[]
   };
-  emailjs.init(EMAILJS_PUBLIC_KEY);
-  var currentShift='Morning';
-  var bills=[{label:'$100 bills',val:100},{label:'$50 bills',val:50},{label:'$20 bills',val:20},{label:'$10 bills',val:10},{label:'$5 bills',val:5},{label:'$1 bills',val:1}];
-  var coins=[{label:'Quarters',val:0.25},{label:'Dimes',val:0.10},{label:'Nickels',val:0.05},{label:'Pennies',val:0.01}];
-  function buildRows(items,cid){var c=document.getElementById(cid);for(var i=0;i<items.length;i++){var item=items[i];var id='d_'+item.label.replace(/\W/g,'');var row=document.createElement('div');row.className='denom-row';row.innerHTML='<div class="denom-name">'+item.label+'</div><div class="qty-controls"><button type="button" onclick="adj(\''+id+'\',-1)">−</button><input type="number" id="'+id+'" value="0" min="0" data-val="'+item.val+'" oninput="calc()"><button type="button" onclick="adj(\''+id+'\',1)">+</button></div><div class="denom-sub" id="sub_'+id+'">$0.00</div>';c.appendChild(row);}}
-  buildRows(bills,'bills');buildRows(coins,'coins');
-  function setShift(btn,name){var b=document.querySelectorAll('.shift-bar button');for(var i=0;i<b.length;i++)b[i].classList.remove('active');btn.classList.add('active');currentShift=name;}
-  function adj(id,d){var el=document.getElementById(id);el.value=Math.max(0,(parseInt(el.value)||0)+d);calc();}
-  function checkLowDenoms(){var warnings=[];var keys=Object.keys(LOW_THRESHOLDS);for(var i=0;i<keys.length;i++){var k=keys[i];var el=document.getElementById(k);if(!el)continue;var qty=parseInt(el.value)||0;if(qty<LOW_THRESHOLDS[k].min){warnings.push(LOW_THRESHOLDS[k].label+': '+qty+' (need '+LOW_THRESHOLDS[k].min+')');}}var alertEl=document.getElementById('lowAlert');if(warnings.length>0){alertEl.innerHTML='Low denomination alert:<br>'+warnings.join('<br>');alertEl.style.display='block';}else{alertEl.style.display='none';}return warnings;}
-  function calc(){var total=0;var els=document.querySelectorAll('[data-val]');for(var i=0;i<els.length;i++){var el=els[i];var qty=parseInt(el.value)||0;var val=parseFloat(el.dataset.val);var sub=qty*val;total+=sub;document.getElementById('sub_'+el.id).textContent='$'+sub.toFixed(2);}var rounded=Math.round(total*100)/100;document.getElementById('total').textContent='$'+rounded.toFixed(2);var diff=Math.round((rounded-APPROVED_BANK)*100)/100;var s=document.getElementById('status');if(rounded<APPROVED_BANK){s.textContent='$'+Math.abs(diff).toFixed(2)+' short';s.className='status low';}else if(diff>=ALERT_OVER){s.textContent='+$'+diff.toFixed(2)+' over — pull cash';s.className='status high';}else{s.textContent='Balanced (approved $'+APPROVED_BANK.toFixed(2)+')';s.className='status ok';}checkLowDenoms();return{total:rounded,diff:diff};}
-  function submitCount(){var emp=document.getElementById('emp').value;if(!emp){showToast('Please select an employee.','error');return;}var result=calc();var total=result.total;var diff=result.diff;var lowWarnings=checkLowDenoms();var needsAlert=total<APPROVED_BANK||diff>=ALERT_OVER||lowWarnings.length>0;var now=new Date();var dateStr=now.toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'numeric'});var timeStr=now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});var datetime=dateStr+' '+timeStr;var statusText='';if(total<APPROVED_BANK){statusText='SHORT — $'+Math.abs(diff).toFixed(2)+' under';}else if(diff>=ALERT_OVER){statusText='OVER — +$'+diff.toFixed(2)+' above — pull cash';}else{statusText='BALANCED';}var denomData={};var lines=[];var allItems=bills.concat(coins);for(var i=0;i<allItems.length;i++){var item=allItems[i];var id='d_'+item.label.replace(/\W/g,'');var qty=parseInt(document.getElementById(id).value)||0;denomData[item.label]=qty;if(qty>0)lines.push(item.label+' x '+qty+' = $'+(qty*item.val).toFixed(2));}var btn=document.querySelector('.submit-btn');btn.disabled=true;btn.textContent='Submitting…';var sheetData={date:dateStr,time:timeStr,employee:emp,shift:currentShift,total:total.toFixed(2),status:statusText,hundreds:denomData['$100 bills']||0,fifties:denomData['$50 bills']||0,twenties:denomData['$20 bills']||0,tens:denomData['$10 bills']||0,fives:denomData['$5 bills']||0,ones:denomData['$1 bills']||0,quarters:denomData['Quarters']||0,dimes:denomData['Dimes']||0,nickels:denomData['Nickels']||0,pennies:denomData['Pennies']||0};var sheetPromise=fetch(GOOGLE_SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(sheetData)});var emailBody=lines.join('\n')+'\n\nTotal: $'+total.toFixed(2)+'\nStatus: '+statusText;if(lowWarnings.length>0){emailBody+='\n\nLOW DENOMINATION ALERT:\n'+lowWarnings.join('\n');}var emailSubject=(lowWarnings.length>0?'Low Change Alert':'Drawer Alert')+' — '+currentShift+' — '+emp+' — '+datetime;var emailPromise=needsAlert?emailjs.send(EMAILJS_SERVICE_ID,EMAILJS_TEMPLATE_ID,{to_email:OWNER_EMAIL,subject:emailSubject,employee:emp,shift:currentShift,timestamp:datetime,total:'$'+total.toFixed(2),approved:'$'+APPROVED_BANK.toFixed(2),difference:statusText,breakdown:emailBody}):Promise.resolve();Promise.all([sheetPromise,emailPromise]).then(function(){showToast(needsAlert?'Count submitted — owner alerted.':'Count submitted','success');btn.textContent='Submitted';}).catch(function(err){console.error(err);showToast('Submission error.','error');btn.disabled=false;btn.textContent='Submit count';});}
-  function showToast(msg,type){var t=document.getElementById('toast');t.textContent=msg;t.className='toast '+type;}
+
+  if(connStatus==='loading'){
+    r.text='Loading previous count…';
+    return r;
+  }
+  if(connStatus==='error'){
+    r.text='Previous count unavailable — this submission will be UNVERIFIED.';
+    r.kind='warn';
+    return r;
+  }
+  if(connStatus==='empty'){
+    r.text='First count on record — nothing to compare yet.';
+    return r;
+  }
+
+  if(type==='opening'){
+    const anchor=book.prevClose||book.last;
+    let lateSales=0;
+    if(anchor.countType!=='closing'){
+      const final=book.priorDayFinalSales;
+      if(final==null || anchor.sales==null){
+        r.text='Prior day had no closing count. Owner must enter its final Cleantie cash sales in DailySales to reconcile this opening.';
+        r.kind='warn';
+        return r;
+      }
+      lateSales=Number(final)-Number(anchor.sales);
+      if(lateSales<0){r.text='Prior-day final sales are below the last running sales total.';r.kind='warn';return r}
+    }
+    r.value=round(Number(anchor.total)+lateSales-withdrawals());
+  }else if(sales!==null){
+    const prior=book.last;
+    const baseline=prior.sales==null?0:Number(prior.sales);
+    if(sales/100<baseline){r.text='Cleantie total is below the previous count.';r.kind='warn';return r}
+    r.value=round(Number(prior.total)+sales/100-baseline-
+      withdrawals());
+  }else{
+    r.text='Enter the running cash sales total from Cleantie.';
+    return r;
+  }
+
+  r.diff=round(total-r.value);
+  r.kind=Math.abs(r.diff)<=TOLERANCE?'ok':'low';
+  r.text='Expected '+usd(r.value)+' — '+
+    (r.kind==='ok'
+      ?'matches within '+usd(TOLERANCE)
+      :'difference '+signed(r.diff));
+
+  if(r.kind==='low'){
+    r.causes.push(
+      type==='opening'
+        ?'Compare with last night’s closing count and recorded withdrawals.'
+        :'Recheck the cash count, Cleantie sales, refunds, and withdrawals.'
+    );
+  }
+  return r;
+}
+
+function calc(){
+  const q={};
+  const invalid=[];
+  let centsTotal=0;
+
+  DENOMS.forEach(([label,value,key])=>{
+    const el=$('d_'+key);
+    const n=whole(el.value);
+    if(n===null&&el.value.trim()!=='')
+      invalid.push(label);
+
+    el.classList.toggle(
+      'bad',n===null&&el.value.trim()!==''
+    );
+    q[key]=n??0;
+
+    const subtotal=Math.round(q[key]*value*100);
+    centsTotal+=subtotal;
+    $('s_'+key).textContent=usd(subtotal/100);
+  });
+
+  const total=centsTotal/100;
+  const diff=round(total-APPROVED_BANK);
+  $('total').textContent=usd(total);
+
+  $('status').textContent=
+    total===0
+      ?'Start counting'
+      :diff<0
+        ?usd(diff)+' under the '+usd(APPROVED_BANK)+' bank'
+        :diff>0
+          ?signed(diff)+' above bank'
+          :'At the '+usd(APPROVED_BANK)+' bank';
+  $('status').className='status '+(diff<0?'low':'ok');
+
+  const ev=expectedFor(total);
+  $('expected').textContent=ev.text;
+  $('expected').className='expected '+ev.kind;
+
+  if(diff>=WITHDRAWAL_ALERT)
+    show(
+      'ownerAlert',
+      'Drawer is '+usd(diff)+
+      ' over the bank. An owner may withdraw cash.',
+      'warn'
+    );
+  else hide('ownerAlert');
+
+  $('withdrawHint').textContent=diff>0
+    ?'Suggested withdrawal: '+usd(diff)+
+      ' returns the drawer to '+usd(APPROVED_BANK)+
+      '. Record only after cash is physically removed.'
+    :'Record only after the owner physically removes cash.';
+
+  const baseline=cartBaseline();
+  const carts=whole($('carts').value);
+  $('cartHint').textContent=baseline===null
+    ?'':'Last recorded: '+baseline+' carts.';
+
+  if(baseline!==null&&carts!==null&&carts!==baseline)
+    show(
+      'cartAlert',
+      'Carts '+(carts<baseline?'down ':'up ')+
+      Math.abs(carts-baseline)+
+      ' since last count ('+baseline+' to '+carts+').',
+      'info'
+    );
+  else hide('cartAlert');
+
+  const warnings=lowWarnings(q);
+  if(warnings.length&&total>0)
+    show(
+      'lowAlert',
+      'Running low on change: '+
+      warnings.join('; ')+'.',
+      'error'
+    );
+  else hide('lowAlert');
+
+  if(ev.diff!==null&&Math.abs(ev.diff)>TOLERANCE)
+    show(
+      'issueAlert',
+      'Count differs from expected by '+
+      signed(ev.diff)+'. Recount and add a note.',
+      'error'
+    );
+  else hide('issueAlert');
+
+  return {q,total,invalid,ev,warnings};
+}
+
+async function post(data){
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),60000);
+
+  try{
+    const response=await fetch(GOOGLE_SHEET_URL,{
+      method:'POST',
+      headers:{
+        'Content-Type':'text/plain;charset=utf-8'
+      },
+      body:JSON.stringify(data),
+      signal:controller.signal
+    });
+
+    if(!response.ok)
+      throw Error('HTTP '+response.status);
+
+    const result=await response.json();
+    if(!result.success)
+      throw Error(
+        result.error||'Sheet rejected the submission'
+      );
+    if(result.submissionId!==data.submissionId)
+      throw Error(
+        'Sheet returned the wrong submission ID'
+      );
+    return result;
+  }finally{
+    clearTimeout(timer);
+  }
+}
+
+function restoreCount(){
+  pendingCount=loadPending(COUNT_KEY);
+  if(!pendingCount) return;
+
+  show(
+    'pendingCount',
+    'A count with ID '+
+    pendingCount.data.submissionId+
+    ' is awaiting confirmation. Press “Retry saved count” '+
+    'to send the exact same record. Do not recount or change the drawer.',
+    'warn'
+  );
+  $('countBtn').textContent='Retry saved count';
+  setCountLocked(true);
+}
+
+function setCountLocked(locked){
+  document.querySelectorAll(
+    '#countType,#emp,#outgoing,#agreed,#sales,#carts,#note,'+
+    '#bills input,#bills button,#coins input,#coins button'
+  ).forEach(el=>el.disabled=locked);
+}
+
+function validateCount(c){
+  const type=$('countType').value;
+  const counter=$('emp').value;
+  const outgoing=$('outgoing').value;
+  const salesText=$('sales').value.trim();
+  const sales=cents(salesText);
+  const carts=whole($('carts').value);
+  const note=$('note').value.trim();
+
+  if(!type)
+    return 'Choose whether this is an opening, handoff, or closing count.';
+  if(!counter)
+    return 'Select the employee counting the drawer.';
+  if(type==='handoff'&&(!outgoing||outgoing===counter))
+    return 'Select a different outgoing employee for the handoff.';
+  if(type==='handoff'&&!$('agreed').checked)
+    return 'The outgoing employee must watch and agree before the handoff is saved.';
+  if(c.invalid.length)
+    return 'Use nonnegative whole numbers for every denomination: '+
+      c.invalid.join(', ')+'.';
+  if(c.total<=0)
+    return 'Count the drawer before submitting.';
+  if(carts===null)
+    return 'Enter the cart count as a nonnegative whole number.';
+
+  if(type!=='opening' || salesText!==''){
+    if(sales===null)
+      return 'Enter a valid Cleantie cash sales amount (at most two decimals).';
+  }
+
+  if(c.ev.diff!==null &&
+     Math.abs(c.ev.diff)>TOLERANCE &&
+     !note)
+    return 'Explain the drawer difference in the note.';
+
+  return '';
+}
+
+function createCount(c){
+  const type=$('countType').value;
+  const counter=$('emp').value;
+  const outgoing=type==='handoff' ? $('outgoing').value : '';
+  const sales=cents($('sales').value);
+  const data={
+    action:'count', submissionId:idFor('CD'), date:businessDate(), time:timeNow(),
+    employee:type==='handoff'?outgoing:counter, countedBy:counter,
+    signedOffBy:outgoing, takingOver:type==='handoff'?counter:'',
+    agreed:type==='handoff'?'Yes':'', countType:type, shift:shiftNow(),
+    total:c.total.toFixed(2), ...c.q, sales:sales===null?'':sales/100,
+    carts:whole($('carts').value), note:$('note').value.trim()
+  };  return {data,state:'posting'};
+}
+
+async function submitCount(){
+  if($('countBtn').disabled) return;
+  const btn=$('countBtn');
+  btn.disabled=true;
+  btn.textContent='Working…';
+
+  try{
+    if(!pendingCount){
+      await loadBook(45000);
+      renderPrev();
+      countOptions();
+
+      const c=calc();
+      const error=validateCount(c);
+      if(error){
+        show('toast',error,'error');
+        return;
+      }
+
+      pendingCount=createCount(c);
+      if(!persist(COUNT_KEY,pendingCount)){
+        pendingCount=null;
+        show(
+          'toast',
+          'This browser cannot store a safe retry. Enable storage and try again. Nothing was submitted.',
+          'error'
+        );
+        return;
+      }
+      setCountLocked(true);
+    }
+
+    const item=pendingCount;
+    const saved=await post(item.data);
+
+    item.state='saved';
+    persist(COUNT_KEY,item);
+
+    show(
+      'toast',
+      (item.data.verified==='No'
+        ?'UNVERIFIED count ':'Count ')+
+      (saved.duplicate?'already saved':'saved')+
+      ' in row '+saved.row+
+      '. ID: '+item.data.submissionId,
+      'info'
+    );
+
+    if(saved.alertError) show('toast',
+      'Count saved, but the server email failed: '+saved.alertError,
+      'warn');
+
+    clearPending(COUNT_KEY);
+    pendingCount=null;
+    hide('pendingCount');
+    btn.textContent='Saved';
+    $('newCountBtn').classList.remove('hidden');
+  }catch(e){
+    console.error(e);
+    show(
+      'toast',
+      'Save not confirmed: '+e.message+
+      '. Retry the same record and ID. If the sheet did save it, '+
+      'the server will return its existing row.',
+      'error'
+    );
+    restoreCount();
+  }finally{
+    btn.disabled=btn.textContent==='Saved';
+  }
+}
+
+function restoreWithdrawal(){
+  pendingWithdrawal=loadPending(WITHDRAW_KEY);
+  if(pendingWithdrawal){
+    $('withdrawBtn').textContent='Retry pending withdrawal';
+    $('withdrawAmount').value=
+      Number(pendingWithdrawal.data.amount).toFixed(2);
+    $('withdrawOwner').value=
+      pendingWithdrawal.data.owner;
+    show(
+      'toast',
+      'Withdrawal ID '+
+      pendingWithdrawal.data.submissionId+
+      ' is awaiting confirmation. Retry it before recording another withdrawal.',
+      'warn'
+    );
+  }
+}
+
+async function submitWithdrawal(){
+  if($('withdrawBtn').disabled) return;
+  const btn=$('withdrawBtn');
+  btn.disabled=true;
+  btn.textContent='Working…';
+
+  try{
+    if(!pendingWithdrawal){
+      const owner=$('withdrawOwner').value;
+      const amountCents=cents(
+        $('withdrawAmount').value
+      );
+
+      if(!owner ||
+         amountCents===null ||
+         amountCents<=0){
+        show(
+          'toast',
+          'Select an owner and enter a positive amount with at most two decimals.',
+          'error'
+        );
+        return;
+      }
+
+      const bk=await loadBook();
+      renderPrev();
+      countOptions();
+      calc();
+
+      if(!bk?.last){
+        show(
+          'toast',
+          'Could not read the last count. Record this withdrawal once the ledger is available.',
+          'error'
+        );
+        return;
+      }
+
+      const prior=Number(bk.wdSinceLast||0);
+      const available=round(
+        Number(bk.last.total)-
+        APPROVED_BANK-prior
+      );
+      const amount=amountCents/100;
+
+      if(amount>available){
+        show(
+          'toast',
+          'Only '+usd(Math.max(0,available))+
+          ' is available above the '+
+          usd(APPROVED_BANK)+' bank.',
+          'error'
+        );
+        return;
+      }
+
+      const data={
+        action:'ownerWithdrawal',
+        submissionId:idFor('OW'),
+        date:businessDate(),
+        time:timeNow(),
+        owner,
+        amount,
+        relatedCountId:bk.last.submissionId||'',
+        priorCountTotal:Number(bk.last.total),
+        priorWithdrawals:prior,
+        availableAboveBank:Math.max(0,available)
+      };
+
+      pendingWithdrawal={data,state:'posting'};
+
+      if(!persist(
+        WITHDRAW_KEY,
+        pendingWithdrawal
+      )){
+        pendingWithdrawal=null;
+        show(
+          'toast',
+          'This browser cannot store a safe retry. Nothing was submitted.',
+          'error'
+        );
+        return;
+      }
+    }
+
+    // A pending retry goes straight to the sheet with its original ID.
+    const item=pendingWithdrawal;
+    const saved=await post(item.data);
+
+    item.state='saved';
+    persist(WITHDRAW_KEY,item);
+
+    show(
+      'toast',
+      'Withdrawal '+
+      (saved.duplicate
+        ?'already recorded'
+        :'recorded')+
+      ' in row '+saved.row+
+      '. ID: '+item.data.submissionId,
+      'info'
+    );
+
+    if(saved.alertError) show('toast',
+      'Withdrawal saved, but the server email failed: '+saved.alertError,
+      'warn');
+
+    clearPending(WITHDRAW_KEY);
+    pendingWithdrawal=null;
+    $('withdrawAmount').value='';
+    $('withdrawOwner').value='';
+
+    await loadBook();
+    renderPrev();
+    countOptions();
+    calc();
+  }catch(e){
+    console.error(e);
+    show(
+      'toast',
+      'Withdrawal save not confirmed: '+
+      e.message+
+      '. Retry the same ID before recording another withdrawal.',
+      'error'
+    );
+    restoreWithdrawal();
+  }finally{
+    btn.disabled=false;
+    btn.textContent=pendingWithdrawal
+      ?'Retry pending withdrawal'
+      :'Record owner withdrawal';
+  }
+}
+
+async function startAnotherCount(){
+  setCountLocked(false);
+
+  DENOMS.forEach(([,value,key])=>{
+    $('d_'+key).value='0';
+  });
+  ['emp','outgoing','sales','carts','note']
+    .forEach(id=>$(id).value='');
+  $('agreed').checked=false;
+
+  $('newCountBtn').classList.add('hidden');
+  $('countBtn').disabled=false;
+  $('countBtn').textContent='Submit drawer count';
+  hide('toast');
+
+  await loadBook();
+  renderPrev();
+  countOptions();
+  calc();
+}
+
+$('countType').addEventListener('change',updateType);
+$('outgoing').addEventListener('change',updateType);
+['emp','agreed','sales','carts','note']
+  .forEach(id=>$(id).addEventListener('input',calc));
+
+$('countBtn').addEventListener('click',submitCount);
+$('withdrawBtn').addEventListener(
+  'click',submitWithdrawal
+);
+$('newCountBtn').addEventListener(
+  'click',startAnotherCount
+);
+
+restoreCount();
+restoreWithdrawal();
+
+loadBook().then(()=>{
+  renderPrev();
+  countOptions();
+  calc();
+  if(pendingCount) setCountLocked(true);
+});
+calc();
 </script>
 </body>
 </html>
-
